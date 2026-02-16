@@ -2,8 +2,20 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çağan XOX | Pro Star Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Çağan XOX | Ücretsiz Online Strateji ve Zeka Oyunu 2026</title>
+    <meta name="description" content="Çağan Yeşilyurt tarafından geliştirilen Çağan XOX ile botlara veya arkadaşlarınıza karşı yeteneklerinizi sergileyin. Ücretsiz, reklamsız ve modern XOX deneyimi.">
+    <meta name="keywords" content="xox oyna, tic tac toe online, çağat yeşilyurt, zeka oyunları, strateji oyunları, ücretsiz xox, xox bot, 2 kişilik oyunlar, çağan xox 2026">
+    <meta name="author" content="Çağan Yeşilyurt">
+    <link rel="canonical" href="https://caganyesilyurt.com/XOX/" />
+
+    <meta property="og:title" content="Çağan XOX - Online Zeka Oyunu">
+    <meta property="og:description" content="Modern tasarımı ve akıllı botuyla en iyi XOX deneyimini yaşa. İlk 3 olan kazanır!">
+    <meta property="og:image" content="https://i.ibb.co/bgM6pB5P/image.png">
+    <meta property="og:url" content="https://caganyesilyurt.com/XOX/">
+    <meta property="og:type" content="website">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -18,13 +30,14 @@
 
         body {
             margin: 0; min-height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            align-items: center; justify-content: flex-start; /* Üstten başla ki footer sığsın */
             background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
-            color: white; overflow: hidden;
+            color: white; overflow-x: hidden; overflow-y: auto; /* Kaydırmaya izin ver */
+            padding-top: 40px;
         }
 
         body::before {
-            content: ""; position: absolute; width: 100%; height: 100%;
+            content: ""; position: fixed; width: 100%; height: 100%; top:0; left:0;
             background-image: radial-gradient(white, rgba(255,255,255,.05) 1px, transparent 15px);
             background-size: 250px 250px; z-index: -1;
         }
@@ -43,16 +56,8 @@
         }
         .score-val { font-size: 1.4em; color: var(--neon-green); display: block; }
         
-        .active-player-x {
-            color: var(--neon-pink) !important;
-            text-shadow: 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
-            transition: 0.5s;
-        }
-        .active-player-o {
-            color: var(--neon-blue) !important;
-            text-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
-            transition: 0.5s;
-        }
+        .active-player-x { color: var(--neon-pink) !important; text-shadow: 0 0 20px var(--neon-pink); }
+        .active-player-o { color: var(--neon-blue) !important; text-shadow: 0 0 20px var(--neon-blue); }
 
         .target-info { font-size: 0.8em; color: var(--main-orange); margin-top: 5px; }
         #game-status { font-size: 1.5em; color: var(--neon-blue); margin: 15px 0; height: 1.5em; font-weight: bold; }
@@ -80,7 +85,7 @@
         }
 
         .top-controls { position: absolute; top: 20px; right: 20px; display: flex; gap: 20px; align-items: center; z-index: 3000; }
-        .icon-btn { font-size: 2.2em; background: none; border: none; color: var(--neon-blue); cursor: pointer; transition: 0.3s; }
+        .icon-btn { font-size: 2.2em; background: none; border: none; color: var(--neon-blue); cursor: pointer; }
 
         #settings-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 4000; }
         .settings-content { background: #1a1a2e; padding: 30px; border-radius: 20px; border: 2px solid var(--neon-blue); width: 300px; text-align: center; }
@@ -92,7 +97,7 @@
         input:checked + .slider { background-color: var(--neon-green); }
         input:checked + .slider:before { transform: translateX(26px); }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 5000; }
         .modal-content { background: #1a1a2e; padding: 40px; border-radius: 30px; border: 2px solid var(--neon-blue); text-align: center; width: 90%; max-width: 400px; }
         input[type="text"] { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--neon-blue); color: white; border-radius: 8px; text-align: center; }
         .diff-container { display: flex; justify-content: space-around; margin: 20px 0; }
@@ -100,11 +105,13 @@
         .diff-opt.active { background: var(--neon-pink); color: black; font-weight: bold; }
         .hidden { display: none !important; }
 
-        /* COPYRIGHT STİLİ */
+        /* COPYRIGHT STİLİ - GARANTİ GÖRÜNÜM */
         .footer-text {
-            margin-top: 30px; font-size: 0.9em; color: rgba(255, 255, 255, 0.4);
+            width: 100%; text-align: center; padding: 40px 0 20px 0;
+            font-size: 0.9em; color: rgba(255, 255, 255, 0.4);
             letter-spacing: 1px; text-transform: uppercase; font-weight: bold;
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
+            position: relative; z-index: 10;
         }
     </style>
 </head>
@@ -157,15 +164,13 @@
 
     <div id="capture-area">
         <h1 id="main-title">ÇAĞAN XOX</h1>
-        
         <div class="score-board">
             <div id="box-x"><span id="name-x">X</span><span id="score-x" class="score-val">0</span></div>
-            <div><span>BERABERE</span><span id="score-draw" class="score-val">0</span></div>
+            <div><span>DRAW</span><span id="score-draw" class="score-val">0</span></div>
             <div id="box-o"><span id="name-o">O</span><span id="score-o" class="score-val">0</span></div>
         </div>
         <div class="target-info">İLK 3 OLAN KAZANIR!</div>
-
-        <div id="game-status">Yükleniyor...</div>
+        <div id="game-status">Hazır mısın?</div>
         <div id="board">
             <div class="cell" data-index="0"></div><div class="cell" data-index="1"></div><div class="cell" data-index="2"></div>
             <div class="cell" data-index="3"></div><div class="cell" data-index="4"></div><div class="cell" data-index="5"></div>
@@ -173,10 +178,10 @@
         </div>
     </div>
 
-    <div style="display:flex; gap:10px">
+    <div style="display:flex; gap:10px; margin-bottom: 20px;">
         <button id="reset-btn" class="game-btn" onclick="resetGame()">TEKRARLA</button>
-        <button id="new-series-btn" class="game-btn hidden" onclick="location.reload()">YENİ SERİ BAŞLAT</button>
-        <button id="save-btn" class="game-btn hidden" onclick="downloadImg()">SKORU KAYDET</button>
+        <button id="new-series-btn" class="game-btn hidden" onclick="location.reload()">YENİ SERİ</button>
+        <button id="save-btn" class="game-btn hidden" onclick="downloadImg()">KAYDET</button>
     </div>
 
     <div class="footer-text">Copyright Çağan Yeşilyurt 2026</div>
@@ -279,7 +284,6 @@
             if (checkWinMatch(newBoard, "X")) return { score: -10 };
             if (checkWinMatch(newBoard, "O")) return { score: 10 };
             if (avail.length === 0) return { score: 0 };
-
             const moves = [];
             for (let i = 0; i < avail.length; i++) {
                 let move = { index: avail[i] };
@@ -288,7 +292,6 @@
                 newBoard[avail[i]] = "";
                 moves.push(move);
             }
-
             let bestMove;
             if (player === "O") {
                 let bestScore = -10000;
@@ -315,10 +318,8 @@
                     gameActive = false;
                     scores[winSym]++;
                     updateScores();
-                    
-                    if (scores[winSym] === 3) {
-                        finalizeSeries(names[winSym]);
-                    } else {
+                    if (scores[winSym] === 3) finalizeSeries(names[winSym]);
+                    else {
                         document.getElementById('game-status').innerText = names[winSym] + " KAZANDI!";
                         document.getElementById('save-btn').classList.remove('hidden');
                         celebrate(false);
@@ -328,9 +329,7 @@
             }
             if (!found && !board.includes("")) { 
                 document.getElementById('game-status').innerText = "BERABERE!"; 
-                gameActive = false; 
-                scores.draw++;
-                updateScores();
+                gameActive = false; scores.draw++; updateScores();
                 document.getElementById('save-btn').classList.remove('hidden'); 
             }
         }
@@ -338,7 +337,7 @@
         function finalizeSeries(winnerName) {
             seriesWinnerFound = true;
             document.getElementById('game-status').style.color = 'var(--neon-green)';
-            document.getElementById('game-status').innerText = "TEBRİKLER " + winnerName.toUpperCase() + " OYUNU KAZANDIN!";
+            document.getElementById('game-status').innerText = "TEBRİKLER " + winnerName.toUpperCase() + " KAZANDIN!";
             document.getElementById('reset-btn').classList.add('hidden');
             document.getElementById('new-series-btn').classList.remove('hidden');
             document.getElementById('save-btn').classList.remove('hidden');
@@ -387,13 +386,14 @@
 
         function downloadImg() {
             html2canvas(document.getElementById('capture-area')).then(canvas => {
-                const a = document.createElement('a');
-                a.download = 'CAGAN_XOX_SKOR.png';
+                const a = document.createElement('a')
+                                a.download = 'CAGAN_XOX_SKOR.png';
                 a.href = canvas.toDataURL();
                 a.click();
             });
         }
 
+        // Hücrelere tıklama dinleyicisini ekle
         document.querySelectorAll('.cell').forEach(c => c.addEventListener('click', handleCellClick));
     </script>
 </body>
